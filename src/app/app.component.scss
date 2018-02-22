@@ -1,0 +1,29 @@
+:host /deep/ {
+    .ui-table .ui-table-thead>tr>th,
+    .ui-table .ui-table-tfoot>tr>td,
+    .ui-table .ui-table-tbody>tr>td {
+      border: none;
+    }
+
+    .right-number {
+      float: right;
+      text-align: right;
+      margin-right: 20px;
+    }
+
+    p-table td {
+      cursor: default;
+      color: gray;
+      font-style: italic;
+    }
+  
+    p-table td.editable {
+      cursor: pointer;
+      color: black;
+      font-style: normal;
+    }
+  
+    p-table td.editable:hover {
+      background-color: #EEEEEE;
+    }
+  }

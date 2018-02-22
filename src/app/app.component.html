@@ -1,0 +1,93 @@
+<h1>Teaser for Placements.io</h1>
+
+<p-table #dt [columns]="selectedColumns" [value]="lineItems" [paginator]="true" [rows]="10" [reorderableColumns]="true" [autoLayout]="true"
+    sortField="id">
+    <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix">
+            <button type="button" pButton icon="fa-file-o" iconPos="left" label="Export" (click)="dt.exportCSV()" style="float:right"></button>
+            <p-multiSelect [options]="cols | orderBy:'displayOrder'" [(ngModel)]="selectedColumns" optionLabel="header" selectedItemsLabel="{0} columns selected"
+                [style]="{minWidth: '200px'}" defaultLabel="Choose Columns"></p-multiSelect>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns | orderBy:'displayOrder'" [pSortableColumn]="col.field" pReorderableColumn>
+                {{col.header}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns | orderBy:'displayOrder'" [ngClass]="col.isEditable?'editable':''">
+                <!-- EDIT templates TODO: break out into components -->
+                <span *ngIf="col.isEditable" pEditableColumn>
+                    <ng-container [ngSwitch]="col.template">
+                        <ng-container *ngSwitchCase="'int'">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input type="number" step="1" [(ngModel)]="item[col.field]" (blur)="dt.editingCell=false">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    <span [ngClass]="'right-number'">
+                                        {{item[col.field] | number:"1.0-0"}}
+                                    </span>
+                                </ng-template>
+                            </p-cellEditor>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'dollar-and-cents'">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input type="number" step="any" precision="2" [(ngModel)]="item[col.field]" (blur)="dt.editingCell=false">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    <span [ngClass]="'right-number'">
+                                        {{item[col.field] | currency:"USD":"true":"1.2-2"}}
+                                    </span>
+                                </ng-template>
+                            </p-cellEditor>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'boolean'">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input type="checkbox" [(ngModel)]="item[col.field]" (blur)="dt.editingCell=false">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{item[col.field] | reviewed}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input type="text" [(ngModel)]="item[col.field]" (blur)="dt.editingCell=false">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{item[col.field] || 'Add Comment'}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </ng-container>
+                    </ng-container>
+                </span>
+                <!-- nonEDIT templates -->
+                <span *ngIf="!col.isEditable">
+                    <ng-container [ngSwitch]="col.template">
+                        <ng-container *ngSwitchCase="'int'">
+                            <span [ngClass]="'right-number'">
+                                {{item[col.field] | number:"1.0-0"}}
+                            </span>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'dollar-and-cents'">
+                            <span [ngClass]="'right-number'">
+                                {{item[col.field] | currency:"USD":"true":"1.2-2"}}
+                            </span>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                            {{item[col.field]}}
+                        </ng-container>
+                    </ng-container>
+                </span>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
