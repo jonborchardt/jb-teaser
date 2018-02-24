@@ -1,7 +1,7 @@
 # Teaser
 
 ## Quickstart
- `npm install -g @angular/cli`
+ `npm install -g @angular/cli` 
  `git clone https://github.com/jonborchardt/jb-teaser.git`
  `cd jb-teaser`
  `npm install`
