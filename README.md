@@ -1,11 +1,12 @@
 # Teaser
 
 ## Quickstart
-> `git clone https://github.com/jonborchardt/jb-teaser.git`
-> `cd jb-teaser`
-> `npm install`
-> `ng build`
-> `ng serve --open`
+ `npm install -g @angular/cli`
+ `git clone https://github.com/jonborchardt/jb-teaser.git`
+ `cd jb-teaser`
+ `npm install`
+ `ng build`
+ `ng serve --open`
 
 
 # Details
